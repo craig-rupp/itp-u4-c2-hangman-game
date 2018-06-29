@@ -1,4 +1,4 @@
-from .exceptions import *
+from hangman.exceptions import *
 
 # Complete with your own, just for fun :)
 LIST_OF_WORDS = []
@@ -13,8 +13,21 @@ def _mask_word(word):
 
 
 def _uncover_word(answer_word, masked_word, character):
-    pass
-
+    if answer_word == '' or masked_word == '':
+        raise InvalidWordException('You must enter both words')
+    if len(character) > 1:
+        raise InvalidGuessedLetterException('One only please')
+    if len(answer_word) != len(masked_word):
+        raise InvalidWordException('Same length for first two please')
+    
+    rt_string = ''
+    for idx, val in enumerate(answer_word):
+        if val == character:
+            rt_string += val
+        else:
+            rt_string += '*'
+    return rt_string
+# print(_uncover_word('Python', '******', 'y'))
 
 def guess_letter(game, letter):
     pass
