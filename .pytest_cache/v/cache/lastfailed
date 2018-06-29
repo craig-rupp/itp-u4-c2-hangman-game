@@ -22,9 +22,5 @@
   "tests.py::test_mask_word_with_valid_word": true,
   "tests.py::test_start_new_game_initial_state": true,
   "tests.py::test_uncover_word_is_case_insensitive_different_case": true,
-  "tests.py::test_uncover_word_is_case_insensitive_same_case": true,
-  "tests.py::test_uncover_word_with_all_equal_characters": true,
-  "tests.py::test_uncover_word_with_miss_character": true,
-  "tests.py::test_uncover_word_with_misses_and_guesses": true,
-  "tests.py::test_uncover_word_with_repeated_elements": true
+  "tests.py::test_uncover_word_is_case_insensitive_same_case": true
 }

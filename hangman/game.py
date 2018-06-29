@@ -1,4 +1,5 @@
-from hangman.exceptions import *
+from .exceptions import *
+#from exceptions import *
 
 # Complete with your own, just for fun :)
 LIST_OF_WORDS = []
@@ -20,14 +21,13 @@ def _uncover_word(answer_word, masked_word, character):
     if len(answer_word) != len(masked_word):
         raise InvalidWordException('Same length for first two please')
     
-    rt_string = ''
-    for idx, val in enumerate(answer_word):
-        if val == character:
-            rt_string += val
+    rt_arr = []
+    for i in range(len(masked_word)):
+        if character == answer_word[i]:
+            rt_arr.append(character)
         else:
-            rt_string += '*'
-    return rt_string
-# print(_uncover_word('Python', '******', 'y'))
+            rt_arr.append(masked_word[i])
+    return ''.join(rt_arr)
 
 def guess_letter(game, letter):
     pass
