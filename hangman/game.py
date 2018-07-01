@@ -1,17 +1,25 @@
 from .exceptions import *
-#from exceptions import *
+#from exceptions import * 
+import random
 
 # Complete with your own, just for fun :)
-LIST_OF_WORDS = []
+LIST_OF_WORDS = ['croatia', 'denmark', 'spain', 'russia']
 
 
 def _get_random_word(list_of_words):
-    pass
+    if len(list_of_words) == 0:
+        raise InvalidListOfWordsException()
+    else:
+        return random.choice(list_of_words)
 
 
 def _mask_word(word):
-    pass
-
+    if not word:
+        raise InvalidWordException()
+    else:
+        masked_st_arr = ['*' for x in list(word)]
+        return ''.join(masked_st_arr).lower()
+        
 
 def _uncover_word(answer_word, masked_word, character):
     if answer_word == '' or masked_word == '':
@@ -23,15 +31,24 @@ def _uncover_word(answer_word, masked_word, character):
     
     rt_arr = []
     for i in range(len(masked_word)):
-        if character == answer_word[i]:
-            rt_arr.append(character)
+        if character.lower() == answer_word[i].lower():
+            rt_arr.append(character.lower())
         else:
-            rt_arr.append(masked_word[i])
+            rt_arr.append(masked_word[i].lower())
     return ''.join(rt_arr)
 
-def guess_letter(game, letter):
-    pass
 
+def guess_letter(game, letter):
+    if letter.lower() not in game['previous_guesses']:
+        game['masked_word'] = _uncover_word(game['answer_word'], game['masked_word'], letter)
+        game['previous_guesses'].append(letter.lower())
+    if letter.lower() not in game['masked_word']:
+        game['remaining_misses'] -= 1
+    if game['masked_word'] == game['answer_word'].lower():
+        raise GameWonException('You\'ve won mate')
+    if game['masked_word'] != game['answer_word'].lower() and game['remaining_misses'] == 0:
+        raise GameLostException('Sorry, they don\'t match and you\'re out of guesses!')
+    return game
 
 def start_new_game(list_of_words=None, number_of_guesses=5):
     if list_of_words is None:
@@ -47,3 +64,4 @@ def start_new_game(list_of_words=None, number_of_guesses=5):
     }
 
     return game
+
