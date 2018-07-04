@@ -39,17 +39,19 @@ def _uncover_word(answer_word, masked_word, character):
 
 
 def guess_letter(game, letter):
+    if game['answer_word'] == game['masked_word'] or game['remaining_misses'] < 1:
+        raise GameFinishedException("It\'s over amigo")
+    game['masked_word'] = _uncover_word(game['answer_word'], game['masked_word'], letter)
     if letter.lower() not in game['previous_guesses']:
-        game['masked_word'] = _uncover_word(game['answer_word'], game['masked_word'], letter)
         game['previous_guesses'].append(letter.lower())
     if letter.lower() not in game['masked_word']:
         game['remaining_misses'] -= 1
-    if game['masked_word'] == game['answer_word'].lower():
-        raise GameWonException('You\'ve won mate')
-    if game['masked_word'] != game['answer_word'].lower() and game['remaining_misses'] == 0:
-        raise GameLostException('Sorry, they don\'t match and you\'re out of guesses!')
-    return game
+    if game['masked_word'] == game['answer_word']:
+        raise GameWonException('Well Done')
+    if game['remaining_misses'] == 0:
+        raise GameLostException('Out of Guesses / Lo Siento')
 
+    
 def start_new_game(list_of_words=None, number_of_guesses=5):
     if list_of_words is None:
         list_of_words = LIST_OF_WORDS
